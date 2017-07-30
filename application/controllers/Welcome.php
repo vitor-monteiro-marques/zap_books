@@ -29,15 +29,15 @@ class Welcome extends CI_Controller
 
 //$book->createBook();
 
-        $file = fopen("basket.csv", "r");
+        // $file = fopen("basket.csv", "r");
         //var_dump(fgetcsv($file));
 // $csv = array_map('str_getcsv', file('basket.csv'));
 // print_r($csv);
-        while (($row = fgetcsv($file, 0, ",")) !== false) {
+        // while (($row = fgetcsv($file, 0, ",")) !== false) {
     //Dump out the row for the sake of clarity.
-            echo('/n');
-            var_dump($row[0]);
-        }
+        //     echo('/n');
+        //     var_dump($row[0]);
+        // }
 
 
         $csv = array();
@@ -48,6 +48,7 @@ class Welcome extends CI_Controller
                 $csv[$key] = str_getcsv($value);
 				$book = new Book();
 				$book->createBookFromArray(str_getcsv($value));
+
                 //$this->book->createBookFromArray(str_getcsv($value));
             }
         }
@@ -57,8 +58,12 @@ class Welcome extends CI_Controller
         echo '</pre>';
         print_r($this->book->getTotalPrice());
 
-        fclose($file);
-        $this->load->view('includes/header');
+        $data['library'] = $this->book->getLibrary();
+        $data['formLibrary'] = $this->book->getFormatedLibrary();
+        $data['total'] = $this->book->getTotalPrice();
+
+        //fclose($file);
+        $this->load->view('includes/header', $data);
         $this->load->view('welcome_message');
         $this->load->view('includes/footer');
     }

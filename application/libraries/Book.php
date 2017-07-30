@@ -61,7 +61,7 @@ class Book
 
     function getBookAuthors(array $book) {
         if (strpos($book[4], '|') !== false) {
-          return str_replace(" | ",", ",$book[4]);
+          return str_replace('|',', ',$book[4]);
         }
         return $book[4];
     }
@@ -69,6 +69,7 @@ class Book
 
     function getTotalPrice()
     {
+        self::$totalPrice = 0;
         foreach (self::$library as $key => $value) {
 
               $price = $this->getDiscountedPrice($value[3], $value[0]);
@@ -80,22 +81,29 @@ class Book
     }
 
     function getFormatedLibrary() {
-//TODO
+        $formLib = array();
         foreach (self::$library as $key => $value) {
            
-               
+             //  foreach ($value as $k => $v) {
+           
+              array_push($formLib, '€ '.$this->getBookPrice($value). ' ['.$this->getBookType($value). '] '.$this->getBookISBN($value). ': '.$this->getBookTitle($value). ' - ' . $this->getBookAuthors($value) .'<br>');
+            
+      //  }
             
         }
-
+        return $formLib;
     }
 
     function getDiscountedPrice($price, $bookType) {
         if ($bookType == 'NewBook') {
-                return $price - $price * 10 / 100;
+                return number_format((float)$price - $price * 10 / 100, 2, '.', '');
+                
             } else if($bookType == 'UsedBook') {
-               return $price - $price * 25 / 100;
+                return number_format((float)$price - $price * 25 / 100, 2, '.', '');
+            
             } 
-            return $price;
+         return number_format((float)$price, 2, '.', '');
+    
     }
 
 }

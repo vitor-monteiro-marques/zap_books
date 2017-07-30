@@ -1,8 +1,16 @@
 
 <div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
+	<h1>My Library</h1>
 
 	<div id="body">
+
+		<?php if(isset($formLibrary) && $formLibrary != null){
+			foreach($formLibrary as $key => $value){
+				echo ($value);
+			}
+			echo ('€ '. $total . ' - Total');
+		} ?>
+
 		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
 
 		<p>If you would like to edit this page you'll find it located at:</p>
