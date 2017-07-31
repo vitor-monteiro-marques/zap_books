@@ -1,0 +1,7 @@
+type,title,isbn,price,authors
+ExclusiveBook,Book A,ZAB,80,Guido van rossum
+UsedBook,Book B,USY,100,Donalth Knuth
+NewBook,Book C,1AB,25,Douglas Crockford
+UsedBook,Book D,USY,90,Donalth Knuth
+UsedBook,Book E,AAA,50,Dennis M. Ritchie|Brian W. Kernighan
+NewBook,Book F,AAA,150,Dennis M. Ritchie|Brian W. Kernighan

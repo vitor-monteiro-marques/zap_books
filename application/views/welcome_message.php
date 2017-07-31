@@ -1,15 +1,29 @@
-
 <div id="container">
 	<h1>My Library</h1>
 
 	<div id="body">
 
-		<?php if(isset($formLibrary) && $formLibrary != null){
-			foreach($formLibrary as $key => $value){
-				echo ($value);
-			}
-			echo ('€ '. $total . ' - Total');
-		} ?>
+		<?php if (isset($formLibrary) && $formLibrary != null) {
+            foreach ($formLibrary as $key => $value) {
+                echo ($value);
+            }
+            echo ('€ '. $total . ' - Total');
+} ?>
+
+<br><br>
+		<form action="<?php echo site_url('welcome');?>" method="post" enctype="multipart/form-data">
+
+			<tr>
+				<td width="20%">Select file</td>
+				<td width="80%"><input type="file" name="file" id="file" /></td>
+			</tr>
+
+			<tr>
+				<td>Submit</td>
+				<td><input type="submit" name="submit" /></td>
+			</tr>
+
+		</form>
 
 		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
 
@@ -24,6 +38,6 @@
 
 
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
+	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds.
+		<?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>
-

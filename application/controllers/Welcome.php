@@ -22,42 +22,46 @@ class Welcome extends CI_Controller
     public function index()
     {
 
-    // 	$this->load->model('book_model');
-    // $this->book_model->getBookFromCSV();
-
         $this->load->library('book');
+        $this->load->helper('url');
 
-//$book->createBook();
+        $fileChoosen = false;
 
-        // $file = fopen("basket.csv", "r");
-        //var_dump(fgetcsv($file));
-// $csv = array_map('str_getcsv', file('basket.csv'));
-// print_r($csv);
-        // while (($row = fgetcsv($file, 0, ",")) !== false) {
-    //Dump out the row for the sake of clarity.
-        //     echo('/n');
-        //     var_dump($row[0]);
-        // }
+        if (isset($_POST["submit"])) {
+           
+            if (isset($_FILES["file"])) {
+                     //if there was an error uploading the file
+                if ($_FILES["file"]["error"] > 0) {
+                    echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
+                } else {
+                        //Print file details
+                    echo "Upload: " . $_FILES["file"]["name"] . "<br />";
+                    echo "Type: " . $_FILES["file"]["type"] . "<br />";
+                    echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+                    echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";
 
-
-        $csv = array();
-        $lines = file('basket.csv', FILE_IGNORE_NEW_LINES);
-
-        foreach ($lines as $key => $value) {
-            if ($key != 0) {
-                $csv[$key] = str_getcsv($value);
-				$book = new Book();
-				$book->createBookFromArray(str_getcsv($value));
-
-                //$this->book->createBookFromArray(str_getcsv($value));
+                        $storagename = "uploaded_file.txt";
+                        move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/" . $storagename);
+                        echo "Stored in: " . "uploads/" . $_FILES["file"]["name"] . "<br>";
+                        $this->parseCSV("uploads/" .  $storagename);
+                        $fileChoosen = true;
+                }
+            } else {
+                    echo "No file selected <br>";
             }
         }
-
+//TODO: count dos livros
+//TODO: Check if CSV
+    if(!$fileChoosen) {
+         $this->parseCSV("basket.csv");
+    }
+       
         echo '<pre>';
         print_r($this->book->getLibrary());
         echo '</pre>';
         print_r($this->book->getTotalPrice());
 
+        //Send data to view
         $data['library'] = $this->book->getLibrary();
         $data['formLibrary'] = $this->book->getFormatedLibrary();
         $data['total'] = $this->book->getTotalPrice();
@@ -66,5 +70,24 @@ class Welcome extends CI_Controller
         $this->load->view('includes/header', $data);
         $this->load->view('welcome_message');
         $this->load->view('includes/footer');
+    }
+
+
+    public function parseCSV($file) {
+
+         $csv = array();
+        $lines = file($file, FILE_IGNORE_NEW_LINES);
+
+        foreach ($lines as $key => $value) {
+            if ($key != 0) {
+                $csv[$key] = str_getcsv($value);
+                $book = new Book();
+                $book->createBookFromArray(str_getcsv($value));
+
+            }
+        }
+
+        return $book;
+
     }
 }

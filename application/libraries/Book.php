@@ -56,7 +56,7 @@ class Book
     }
 
     function getBookPrice(array $book) {
-      return  $this->getDiscountedPrice($book[3], $this->getBookType($book));
+      return $p = $this->getDiscountedPrice($book[3], $this->getBookType($book));
     }
 
     function getBookAuthors(array $book) {
@@ -83,12 +83,8 @@ class Book
     function getFormatedLibrary() {
         $formLib = array();
         foreach (self::$library as $key => $value) {
-           
-             //  foreach ($value as $k => $v) {
-           
+
               array_push($formLib, '€ '.$this->getBookPrice($value). ' ['.$this->getBookType($value). '] '.$this->getBookISBN($value). ': '.$this->getBookTitle($value). ' - ' . $this->getBookAuthors($value) .'<br>');
-            
-      //  }
             
         }
         return $formLib;
